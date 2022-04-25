@@ -14,5 +14,9 @@ public interface CustomerDAO extends CrudRepository<CustomerEntity, Integer> {
 
 	@Query(name = "query2")
 	List<CustomerEntity> findAllCustomersByBillAmountBetween(double i, double j);
+	
+	//@Query(name="query1")
+	@Query(value = "SELECT u FROM CustomerEntity u WHERE u.customerId = :id")
+	CustomerEntity findOne(int id);
 
 }
