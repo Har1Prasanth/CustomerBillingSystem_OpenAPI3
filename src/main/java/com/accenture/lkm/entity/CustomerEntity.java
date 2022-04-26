@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="Customer_Spring")
+@Table(name="test")
 public class CustomerEntity {
 
 	
@@ -31,7 +31,8 @@ public class CustomerEntity {
 
 	@Column(name = "billamount")
 	private Double billAmount;
-	
+
+
 	public Integer getCustomerId() {
 		return customerId;
 	}
@@ -44,7 +45,7 @@ public class CustomerEntity {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	
+
 	public Double getBillAmount() {
 		return billAmount;
 	}
@@ -57,8 +58,7 @@ public class CustomerEntity {
 	public void setBillDate(Date billDate) {
 		this.billDate = billDate;
 	}
-	
-	
-	
-	
+
+
+
 }

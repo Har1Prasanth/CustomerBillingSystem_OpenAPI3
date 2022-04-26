@@ -50,9 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<CustomerBean> findAllCustomersBycustomerNameStartsWith() {
+	public List<CustomerBean> findAllCustomersBycustomerName(String customerName) {
 		// TODO Auto-generated method stub
-		return customerDAOWrapper.findAllCustomersBycustomerNameStartsWith();
+		return customerDAOWrapper.findAllCustomersBycustomerName(customerName);
 	}
 
 }

@@ -16,7 +16,6 @@ import com.accenture.lkm.custom.validation.BillDateValidator;
 public class CustomerBean{
 	
 	private int customerId;
-	@NotEmpty(message="{NotEmpty.customerBean.customerName}")
 	private String customerName;
 	@Range(min=1000, max=100000,message = "Range.customerBean.billAmount")
 	private Double billAmount;

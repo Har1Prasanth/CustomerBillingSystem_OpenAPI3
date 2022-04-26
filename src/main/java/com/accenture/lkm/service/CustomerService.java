@@ -9,7 +9,7 @@ public interface CustomerService {
 
 	CustomerBean getCustomerById(int id);
 
-	List<CustomerBean> findAllCustomersBycustomerNameStartsWith();
+	List<CustomerBean> findAllCustomersBycustomerName(String customerName);
 
 	Collection<CustomerBean> getAllCustomers();
 

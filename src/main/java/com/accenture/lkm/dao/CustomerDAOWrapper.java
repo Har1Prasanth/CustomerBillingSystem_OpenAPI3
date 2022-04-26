@@ -26,11 +26,7 @@ public class CustomerDAOWrapper {
 		} catch (Exception ex) {
 			throw ex;
 		}
-		try {
 
-		} catch (Exception ex) {
-			throw ex;
-		}
 		return result;
 	}
 	
@@ -81,11 +77,11 @@ public class CustomerDAOWrapper {
 		return custList;
 	}
 
-	public List<CustomerBean> findAllCustomersBycustomerNameStartsWith() {
+	public List<CustomerBean> findAllCustomersBycustomerName(String customerName) {
 
 		List<CustomerBean> custList = new ArrayList<CustomerBean>();
 
-		List<CustomerEntity> entities = customerDAO.findAllCustomersBycustomerNameStartsWith();
+		List<CustomerEntity> entities = customerDAO.findAllCustomersBycustomerName(customerName);
 
 		for (CustomerEntity customerEntity : entities) {
 			custList.add(convertCustomerEntityToBean(customerEntity));
