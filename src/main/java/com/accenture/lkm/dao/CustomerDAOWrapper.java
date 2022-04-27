@@ -1,8 +1,8 @@
 package com.accenture.lkm.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,17 @@ public class CustomerDAOWrapper {
 		return result;
 	}
 	
-	public Collection<CustomerBean> getAllCustomers() {
+	public List<CustomerBean> getAllCustomers() {
 
 		Iterable<CustomerEntity> entities = customerDAO.findAll();
+
 		List<CustomerBean> customers = new ArrayList<CustomerBean>();
+		List<CustomerBean> customers1 = new ArrayList<CustomerBean>();
+
 		for (CustomerEntity entity : entities) {
 			customers.add(convertCustomerEntityToBean(entity));
 		}
+
 		return customers;
 	}
 

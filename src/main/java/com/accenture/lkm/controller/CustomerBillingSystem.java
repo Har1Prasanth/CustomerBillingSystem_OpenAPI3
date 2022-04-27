@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-import io.swagger.annotations.AuthorizationScope;
+import com.accenture.lkm.Exception.CustomExceptionHandler;
+import com.accenture.lkm.Exception.RecordNotFoundException;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +20,8 @@ import com.accenture.lkm.service.CustomerService;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
+@Api(tags = "CustomerBillingSystem")
+
 @ApiOperation(value = "CustomerBillingSystem",tags = "CustomerBillingSystem")
 public class CustomerBillingSystem {
 
@@ -30,7 +32,7 @@ public class CustomerBillingSystem {
 	@ApiOperation(value = "Add a new Customer Bill", nickname = "addBill", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
 	@PostMapping(value = "api/v2/customer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> addCustomer( @Valid @RequestBody CustomerBean billDetails, @ApiIgnore Errors err) throws Exception {
+	public ResponseEntity<String> addCustomer( @Valid @RequestBody CustomerBean billDetails,@ApiIgnore Errors err) throws Exception {
 
 		if (err.hasErrors())
 			return new ResponseEntity<String>(err.getAllErrors() + " - ", HttpStatus.BAD_REQUEST);
@@ -42,7 +44,7 @@ public class CustomerBillingSystem {
 		}
 	}
 
-	@ApiOperation(value = "Update the Customer Bill", nickname = "UpdateBill", notes = "", authorizations = {
+	@ApiOperation(value = "Update the Customer Bill", nickname = "updateBill", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
 	@PutMapping(value = "api/v2/customer", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CustomerBean> updateCustomer(@RequestBody CustomerBean billDetails) throws Exception {
@@ -51,26 +53,27 @@ public class CustomerBillingSystem {
 			CustomerBean updated = customerService.updateCustomer(billDetails);
 			return new ResponseEntity<CustomerBean>(updated, HttpStatus.OK);
 		} else
-			return new ResponseEntity<CustomerBean>(HttpStatus.NOT_FOUND);
+			//return new ResponseEntity<CustomerBean>(HttpStatus.NOT_FOUND);
+			throw new RecordNotFoundException("Customer ID: " + billDetails.getCustomerId()+" not found to Update.");
 	}
 
-	@ApiOperation(value = "Delete a Customer Bill", nickname = "DeleteBill", notes = "", authorizations = {
+	@ApiOperation(value = "Delete a Customer Bill", nickname = "deleteBill", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
-	@DeleteMapping(value = "api/v2/cid/{customerID}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@DeleteMapping(value = "api/v2/cid/{customerID}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteCustomerById(@PathVariable("customerID") int customerID) {
 		CustomerBean custBean = customerService.getCustomerById(customerID);
 		if (custBean != null) {
 			CustomerBean deleted = customerService.deleteCustomer(custBean);
-			//return new ResponseEntity<CustomerBean>(deleted, HttpStatus.OK);
-			return new ResponseEntity<>("Customer deleted successfully\nCustomerID :" + deleted.getCustomerId()+"\nCustomer Name:"+deleted.getCustomerName(), HttpStatus.OK);
+			return ResponseEntity.ok().body("Customer deleted successfully\nCustomerID :" + deleted.getCustomerId()+"\nCustomer Name:"+deleted.getCustomerName());
 		} else
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			throw new RecordNotFoundException("Customer ID:" +customerID+" not found to Delete.");
+
 	}
 
 
 
 
-	@ApiOperation(value = "Get a list of Customer Bills", nickname = "GetCustomers", notes = "", authorizations = {
+	@ApiOperation(value = "Get a list of Customer Bills", nickname = "getCustomers", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
 	@GetMapping(value = "api/v2/customers", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CustomerBean>> getAllCustomers() {
@@ -78,10 +81,11 @@ public class CustomerBillingSystem {
 		if (custList.size() > 0)
 			return new ResponseEntity<List<CustomerBean>>(custList, HttpStatus.OK);
 		else
-			return new ResponseEntity<List<CustomerBean>>(HttpStatus.NOT_FOUND);
+			//return new ResponseEntity<List<CustomerBean>>(HttpStatus.NOT_FOUND);
+			throw new RecordNotFoundException("No Customer Bills found!!");
 	}
 
-	@ApiOperation(value = "Get a Customer bill", nickname = "GetBill", notes = "", authorizations = {
+	@ApiOperation(value = "Get a Customer bill", nickname = "getBill", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
 	@GetMapping(value = "api/v2/id/{customerID}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CustomerBean> getCustomerById(@PathVariable("customerID") int customerID) {
@@ -90,12 +94,13 @@ public class CustomerBillingSystem {
 			return new ResponseEntity<CustomerBean>(custBean, HttpStatus.OK);
 		else
 			//throw new CustomerNotFoundException(customerID);
-			return new ResponseEntity<CustomerBean>(HttpStatus.NOT_FOUND);
+				throw new RecordNotFoundException("Invalid Customer ID: " + customerID);
+
 	}
 
 
 
-	@ApiOperation(value = "Get CustomerBill based on Name", nickname = "GetBill", notes = "", authorizations = {
+	@ApiOperation(value = "Get CustomerBill based on Name", nickname = "customerName", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
 	@GetMapping(value = "api/v2/name/{customerName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CustomerBean>> getCustomerByName(@PathVariable("customerName") String customerName) {
@@ -104,7 +109,8 @@ public class CustomerBillingSystem {
 		if (custBean.size() > 0)
 			return new ResponseEntity<List<CustomerBean>>(custBean, HttpStatus.OK);
 		else
-			return new ResponseEntity<List<CustomerBean>>(HttpStatus.NOT_FOUND);
+			//return new ResponseEntity<List<CustomerBean>>(HttpStatus.NOT_FOUND);
+			throw new RecordNotFoundException("Customer with Name " + customerName+" not found.");
 	}
 
 
@@ -116,7 +122,9 @@ public class CustomerBillingSystem {
 		if (custBean.size() > 0)
 			return new ResponseEntity<List<CustomerBean>>(custBean, HttpStatus.OK);
 		else
-			return new ResponseEntity<List<CustomerBean>>(HttpStatus.NOT_FOUND);
+			throw new RecordNotFoundException("Customer Bills not found between "+BillAmount1+" to "+BillAmount2);
 	}
+
+
 
 }

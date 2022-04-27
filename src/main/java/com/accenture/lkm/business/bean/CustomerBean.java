@@ -5,10 +5,14 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import com.accenture.lkm.custom.validation.BillDateValidator;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +20,14 @@ import com.accenture.lkm.custom.validation.BillDateValidator;
 public class CustomerBean{
 	
 	private int customerId;
+	//@NotNull(message = "Customer Name is a mandatory field")
 	private String customerName;
-	@Range(min=1000, max=100000,message = "Range.customerBean.billAmount")
+
+	//@Range(min=1000, max=100000,message = "Range.customerBean.billAmount")
 	private Double billAmount;
-	@BillDateValidator(message = "{BilldateValidator.customerBean.billDate}")
+	//@BillDateValidator(message = "{BilldateValidator.customerBean.billDate}")
 	private Date billDate;
+
+
 }
 	
