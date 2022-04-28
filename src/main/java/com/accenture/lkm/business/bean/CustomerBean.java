@@ -27,7 +27,7 @@ public class CustomerBean{
 	//@Range(min=1000, max=100000,message = "Range.customerBean.billAmount")
 	private Double billAmount;
 	//@BillDateValidator(message = "{BilldateValidator.customerBean.billDate}")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "Asia/Kolkata")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "UTC")
 	private Date billDate;
 
 
