@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="test")
+@Table(name="customer_bills")
 public class CustomerEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
