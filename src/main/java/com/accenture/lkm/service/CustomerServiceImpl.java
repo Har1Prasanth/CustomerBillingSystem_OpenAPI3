@@ -40,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerBean getCustomerById(int id)  {
+
 		return customerDAOWrapper.getCustomerById(id);
 	}
 

@@ -1,5 +1,7 @@
 package com.accenture.lkm.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 import javax.persistence.Column;
