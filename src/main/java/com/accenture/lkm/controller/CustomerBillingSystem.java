@@ -30,11 +30,14 @@ public class CustomerBillingSystem {
 
 	@ApiOperation(value = "Add a new Customer Bill", nickname = "addBill", notes = "", authorizations = {
 	}, tags={ "CustomerBillingSystem", })
-	@PostMapping(value = "api/v2/customer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+	@PostMapping(value = "api/v2/customer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addCustomer( @Valid @RequestBody CustomerBean billDetails,@ApiIgnore Errors err) throws Exception {
 
-		if (err.hasErrors())
-			return new ResponseEntity<String>(err.getAllErrors() + " - ", HttpStatus.BAD_REQUEST);
+		if (err.hasErrors()){
+			//return new ResponseEntity<String>(err.getAllErrors());
+			String errors=err.getAllErrors().toString();
+		throw new RecordNotFoundException(errors);
+		}
 		else {
 
 			CustomerBean inserted = customerService.addCustomer(billDetails);
