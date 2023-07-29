@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-//@SuppressWarnings({"unchecked","rawtypes"})
 @ControllerAdvice
 @EnableWebMvc
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler

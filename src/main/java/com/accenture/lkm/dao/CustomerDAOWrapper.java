@@ -35,10 +35,13 @@ public class CustomerDAOWrapper {
 		Iterable<CustomerEntity> entities = customerDAO.findAll();
 
 		List<CustomerBean> customers = new ArrayList<CustomerBean>();
-		List<CustomerBean> customers1 = new ArrayList<CustomerBean>();
 
 		for (CustomerEntity entity : entities) {
-			customers.add(convertCustomerEntityToBean(entity));
+			CustomerBean bean=convertCustomerEntityToBean(entity);
+			if(bean.getFinalPrice()==0)
+				bean.setFinalPrice(bean.getBillAmount());
+			customers.add(bean);
+
 		}
 
 		return customers;
@@ -56,12 +59,16 @@ public class CustomerDAOWrapper {
 		return convertCustomerEntityToBean(entity);
 	}
 
-	public CustomerBean getCustomerById(int id) {
-		CustomerBean result = null;
+	public List<CustomerBean> getCustomerById(int id) {
+		List<CustomerBean> result = new ArrayList<>();
 		try {
 			CustomerEntity entity = customerDAO.findOne(id);
 			if (entity != null) {
-				result = convertCustomerEntityToBean(entity);
+				CustomerBean bean=convertCustomerEntityToBean(entity);
+				if(bean.getFinalPrice()==0)
+					bean.setFinalPrice(bean.getBillAmount());
+				result.add(bean);
+
 			}
 		} catch (Exception ex) {
 			throw ex;
@@ -83,15 +90,17 @@ public class CustomerDAOWrapper {
 
 	public List<CustomerBean> findAllCustomersBycustomerName(String customerName) {
 
-		List<CustomerBean> custList = new ArrayList<CustomerBean>();
+		List<CustomerBean> customers = new ArrayList<CustomerBean>();
 
 		List<CustomerEntity> entities = customerDAO.findAllCustomersBycustomerName(customerName);
 
 		for (CustomerEntity customerEntity : entities) {
-			custList.add(convertCustomerEntityToBean(customerEntity));
-
+			CustomerBean bean=convertCustomerEntityToBean(customerEntity);
+			if(bean.getFinalPrice()==0)
+				bean.setFinalPrice(bean.getBillAmount());
+			customers.add(bean);
 		}
-		return custList;
+		return customers;
 
 	}
 

@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.List;
 
 import com.accenture.lkm.business.bean.CustomerBean;
+import org.springframework.http.ResponseEntity;
+
 public interface CustomerService {
 	CustomerBean addCustomer(CustomerBean bean) throws Exception;
 
-	CustomerBean getCustomerById(int id);
+	List<CustomerBean> getCustomerById(int id);
 
 	List<CustomerBean> findAllCustomersBycustomerName(String customerName);
 
@@ -18,4 +20,6 @@ public interface CustomerService {
 	CustomerBean deleteCustomer(CustomerBean custBean);
 
 	List<CustomerBean> findAllCustomersByBillAmountBetween(double i, double j);
+
+	ResponseEntity<List<CustomerBean>> getCustomerApi(Integer id, String name, String type);
 }

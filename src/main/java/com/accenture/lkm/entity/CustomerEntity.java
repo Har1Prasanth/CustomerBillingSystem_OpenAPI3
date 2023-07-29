@@ -1,7 +1,12 @@
 package com.accenture.lkm.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,50 +21,23 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="customer_bills")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerEntity {
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	@Column(name = "customerid")
 	private int customerId;
-
 	@Column(name = "customername")
 	private String customerName;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "billdate")
-	private Date billDate;
-
 	@Column(name = "billamount")
 	private Double billAmount;
+	@Column(name = "finalprice")
+	private Double finalPrice;
 
-
-	public Integer getCustomerId() {
-		return customerId;
-	}
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
-	}
-	public String getCustomerName() {
-		return customerName;
-	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public Double getBillAmount() {
-		return billAmount;
-	}
-	public void setBillAmount(Double billAmount) {
-		this.billAmount = billAmount;
-	}
-	public Date getBillDate() {
-		return billDate;
-	}
-	public void setBillDate(Date billDate) {
-		this.billDate = billDate;
-	}
-
-
+	@Column(name = "billdate")
+	private LocalDate billDate;
 
 }

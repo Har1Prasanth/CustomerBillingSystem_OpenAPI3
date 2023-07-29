@@ -19,4 +19,5 @@ public interface CustomerDAO extends CrudRepository<CustomerEntity, Integer> {
 	@Query(value = "SELECT u FROM CustomerEntity u WHERE u.customerId = :id")
 	CustomerEntity findOne(int id);
 
+
 }
